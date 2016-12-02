@@ -25,30 +25,22 @@ NEIBaltimore <- NEI %>% filter(fips=="24510")
 NEIBaltimore2pt5byYear <- NEIBaltimore %>%  group_by(year, type) %>% 
   summarize(total2pt5byYear=sum(Emissions)) %>% arrange(type,year)
 
-g1 <- ggplot(data=NEIBaltimore2pt5byYear, aes(x=year, y=total2pt5byYear, fill=year)) 
-g1 + geom_bar(stat="identity") + facet_grid( .~ type)
+makePlot3 <- function(){
 
-#ggplot(data=dat1, aes(x=time, y=total_bill, fill=sex)) +
-#  geom_bar(stat="identity", position=position_dodge(), colour="black")
+  g1 <- ggplot(data=NEIBaltimore2pt5byYear, aes(x=year, y=total2pt5byYear, fill=year)) 
+  g2 <- g1 + geom_bar(stat="identity") + facet_grid( .~ type)
+  return (g2)
+}
 
-# stragegy -- use ggplot facets , 2 x2 panel, maybe use barplot again
-# ggplot(data=NEIBaltimore2pt5byYear, aes(x=year, y=total2pt5byYear, fill=type)) +
-#   geom_bar(
+dev.set(2)
+plt3 <- makePlot3()
+print(plt3)
 
-
-# The total number of observations increase over the years, even while the total emissions decrease!
-
-# 
-# dev.set(2)
-# barplot(height=(NEIBaltimore2pt5byYear$total2pt5byYear/1e3),names.arg=NEIBaltimore2pt5byYear$year, 
-#         main="Total Fine Particle Emissions in City of Baltimore (Maryland)",ylab = "Emissions (Thousand Tons)", 
-#         xlab="Year")
-# 
-# #
-# pngFileOutput <- png(filename = "plot2.png",
-#      width = 480, height = 480, units = "px", pointsize = 12,
-#      bg = "white")
-# 
+ pngFileOutput <- png(filename = "plot2.png",
+      width = 480, height = 480, units = "px", pointsize = 12,
+     bg = "white")
+ print(plt3)
+ 
 # barplot(height=(NEIBaltimore2pt5byYear$total2pt5byYear/1e3),names.arg=NEIBaltimore2pt5byYear$year, 
 #         main="Total Fine Particle Emissions in City of Baltimore (Maryland)",ylab = "Emissions (Thousand Tons)", xlab="Year")
 # 
